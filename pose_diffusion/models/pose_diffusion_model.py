@@ -55,9 +55,9 @@ class PoseDiffusionModel(nn.Module):
         self.pose_encoding_type = pose_encoding_type
 
         self.image_feature_extractor = instantiate(IMAGE_FEATURE_EXTRACTOR, _recursive_=False)
-        self.diffuser = instantiate(DIFFUSER, _recursive_=False)
+        self.diffuser = instantiate(DIFFUSER, _recursive_=False)#调用gaussian_diffuser.py中的GaussianDiffusion类进行实例化
 
-        denoiser = instantiate(DENOISER, _recursive_=False)
+        denoiser = instantiate(DENOISER, _recursive_=False)#调用denoiser.py中的deoiser类进行实例化
         self.diffuser.model = denoiser
 
         self.target_dim = denoiser.target_dim
