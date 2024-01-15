@@ -50,7 +50,8 @@ class Denoiser(nn.Module):
         # TODO: change the implementation of MLP to a more mature one
         self._last = MLP(d_model, [mlp_hidden_dim, self.target_dim], norm_layer=nn.LayerNorm)
 
-    def forward(self, x: torch.Tensor, t: torch.Tensor, z: torch.Tensor):  # B x N x dim  # B  # B x N x dim_z
+    def forward(self, x: torch.Tensor, t: torch.Tensor, z: torch.Tensor):  # Batchsize x N x dim  # B  # B x N x dim_z
+        # 输入x为noisy pose元组 t为diffusion time z为训练好的DINO features
         B, N, _ = x.shape
 
         t_emb = self.time_embed(t)
@@ -62,8 +63,8 @@ class Denoiser(nn.Module):
         if self.pivot_cam_onehot:
             # add the one hot vector identifying the first camera as pivot
             cam_pivot_id = torch.zeros_like(z[..., :1])
-            cam_pivot_id[:, 0, ...] = 1.0
-            z = torch.cat([z, cam_pivot_id], dim=-1)
+            cam_pivot_id[:, 0, ...] = 1.0 #将 cam_pivot_id 张量的第一个元素（第一个相机）设置为 1.0，其他为0，即为独热编码
+            z = torch.cat([z, cam_pivot_id], dim=-1) #将独热编码的向量张量与z进行拼接，第一个相机标识为1，其他为0
 
         feed_feats = torch.cat([x_emb, t_emb, z], dim=-1)
 
