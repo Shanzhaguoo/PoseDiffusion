@@ -117,7 +117,7 @@ class PoseDiffusionModel(nn.Module):
             else:
                 pose_encoding = pose_encoding.reshape(batch_num, -1, self.target_dim)
 
-            diffusion_results = self.diffuser(pose_encoding, z=z)
+            diffusion_results = self.diffuser(pose_encoding, z=z)#需要再加一个参数，用于传入sync，或者修改z（image_feature_extractor）增加sync在某个视角下特征的传入
 
             diffusion_results["pred_cameras"] = pose_encoding_to_camera(
                 diffusion_results["x_0_pred"], pose_encoding_type=self.pose_encoding_type
