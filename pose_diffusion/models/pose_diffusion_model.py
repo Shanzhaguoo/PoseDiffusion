@@ -85,7 +85,7 @@ class PoseDiffusionModel(nn.Module):
     ):
         """
         Forward pass of the PoseDiffusionModel.
-
+        可以理解为只有image读入
         Args:
             image (torch.Tensor):
                 Input image tensor, Bx3xHxW.
