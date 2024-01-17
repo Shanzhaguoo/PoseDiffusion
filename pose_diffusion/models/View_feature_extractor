@@ -9,6 +9,7 @@ from skimage.io import imsave
 from torch.optim.lr_scheduler import LambdaLR
 from tqdm import tqdm
 
+from models.View_feature_extractor_net import NoisyTargetViewEncoder, SpatialTime3DNet, FrustumTV3DNet
 
 class SpatialVolumeNet(nn.Module):
     def __init__(self, time_dim, view_dim, view_num,
