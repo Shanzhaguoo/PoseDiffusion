@@ -25,7 +25,7 @@ conda install pytorch3d -c pytorch3d
 
 # Install pip packages
 pip install hydra-core --upgrade
-pip install omegaconf opencv-python einops visdom
+pip install omegaconf opencv-python einops visdom accelerate
 
 # Install HLoc for extracting 2D matches (optional if GGS is not needed)
 git clone --recursive https://github.com/cvg/Hierarchical-Localization.git dependency/hloc
@@ -33,3 +33,7 @@ git clone --recursive https://github.com/cvg/Hierarchical-Localization.git depen
 cd dependency/hloc
 python -m pip install -e .
 cd ../../
+
+# Ensure the version of pycolmap is not 0.5.0
+pip install --upgrade "pycolmap>=0.3.0,<=0.4.0"
+

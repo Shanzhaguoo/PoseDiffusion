@@ -76,7 +76,7 @@ def demo(cfg: DictConfig) -> None:
     if cfg.GGS.enable:
         # Optional TODO: remove the keypoints outside the cropped region?
 
-        kp1, kp2, i12 = extract_match(folder_path, image_info)
+        kp1, kp2, i12 = extract_match(image_folder_path=folder_path, image_info=image_info)
 
         if kp1 is not None:
             keys = ["kp1", "kp2", "i12", "img_shape"]
@@ -114,18 +114,6 @@ def demo(cfg: DictConfig) -> None:
     elapsed_time = end_time - start_time
     print("Time taken: {:.4f} seconds".format(elapsed_time))
 
-    # Visualization
-    try:
-        viz = Visdom()
-
-        cams_show = {"ours_pred": pred_cameras, "ours_pred_aligned": pred_cameras_aligned, "gt_cameras": gt_cameras}
-
-        fig = plot_scene({f"{folder_path}": cams_show})
-
-        viz.plotlyplot(fig, env="visual", win="cams")
-    except:
-        print("Please check your visdom connection")
-
     # Compute metrics if gt is available
 
     # Load gt poses
@@ -145,6 +133,20 @@ def demo(cfg: DictConfig) -> None:
         print(f"For {folder_path}: the absolute rotation error is {ARE:.6f} degrees.")
     else:
         print(f"No GT provided. No evaluation conducted.")
+
+
+    # Visualization
+    try:
+        viz = Visdom()
+
+        cams_show = {"ours_pred": pred_cameras, "ours_pred_aligned": pred_cameras_aligned, "gt_cameras": gt_cameras}
+
+        fig = plot_scene({f"{folder_path}": cams_show})
+
+        viz.plotlyplot(fig, env="visual", win="cams")
+    except:
+        print("Please check your visdom connection")
+
 
 
 if __name__ == "__main__":

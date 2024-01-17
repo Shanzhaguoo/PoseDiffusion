@@ -51,9 +51,9 @@ def train_fn(cfg: DictConfig):
             from visdom import Visdom
 
             viz = Visdom()
-            cams_show = {"ours_pred": pred_cameras, "ours_pred_aligned": pred_cameras_aligned, "gt_cameras": gt_cameras}
-            fig = plot_scene({f"{folder_path}": cams_show})
-            viz.plotlyplot(fig, env="visual", win="cams")
+            # cams_show = {"ours_pred": pred_cameras, "ours_pred_aligned": pred_cameras_aligned, "gt_cameras": gt_cameras}
+            # fig = plot_scene({f"{folder_path}": cams_show})
+            # viz.plotlyplot(fig, env="visual", win="cams")
         except:
             print("Warning: please check your visdom connection for visualization")
 
@@ -88,7 +88,7 @@ def train_fn(cfg: DictConfig):
         except:
             model.load_state_dict(checkpoint, strict=True)
 
-        accelerator.print(f"Successfully resumed from {cfg.test.resume_ckpt}")
+        accelerator.print(f"Successfully resumed from {cfg.train.resume_ckpt}")
 
     # metrics to record
     stats = VizStats(("loss", "lr", "sec/it", "Auc_30", "Racc_5", "Racc_15", "Racc_30", "Tacc_5", "Tacc_15", "Tacc_30"))
